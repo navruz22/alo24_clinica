@@ -87,7 +87,6 @@ module.exports.register = async (req, res) => {
     }
 
     const users = await User.find({
-      clinica,
       type,
       isArchive: false,
     });
