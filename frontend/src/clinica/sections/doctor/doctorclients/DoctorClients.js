@@ -108,10 +108,10 @@ export const DoctorClients = () => {
             Authorization: `Bearer ${auth.token}`,
           }
         );
-        setDoctorClients([...data].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn));
-        setSearchStorage(data);
+        setDoctorClients([...data])
+        setSearchStorage([...data]);
         setCurrentDoctorClients(
-          [...data].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn).slice(indexFirstConnector, indexLastConnector)
+          [...data].slice(indexFirstConnector, indexLastConnector)
         );
       } catch (error) {
         notify({

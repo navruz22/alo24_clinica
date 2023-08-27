@@ -170,7 +170,7 @@ export const TableClients = ({
                 <option value="statsionar">{t("Statsionar")}</option>
               </select>
             </div>
-            <div
+            {/* <div
               className="text-center"
               style={{ maxWidth: "200px" }}
             >
@@ -184,7 +184,7 @@ export const TableClients = ({
                 <option value="accept">{t("Tasdiqlangan")}</option>
                 <option value="not">{t("Tasdiqlanmagan")}</option>
               </select>
-            </div>
+            </div> */}
           </div>
           <table className="table m-0" id="discount-table">
             <thead>
