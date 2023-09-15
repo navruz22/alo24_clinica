@@ -865,7 +865,7 @@ module.exports.getAllReseption = async (req, res) => {
                 .sort({ _id: -1 })
                 .lean()
                 .then(connectors => {
-                    return connectors.filter(connector => connector.client && connector.client.fullname.toLowerCase().includes(name.toLowerCase()));
+                    return connectors.filter(connector => connector.client && (connector.client.firstname + ' ' + connector.client.lastname).toLowerCase().includes(name.toLowerCase()));
                 })
         } else if (phone) {
             connectors = await OfflineConnector.find({

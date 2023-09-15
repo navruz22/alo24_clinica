@@ -99,6 +99,56 @@ const OfflineClients = () => {
     //=================================================
     //=================================================
 
+    const [name, setName] = useState('')
+
+    const getByClientName = async () => {
+        try {
+            const data = await request(
+                `/api/offlineclient/client/getallreseption`,
+                "POST",
+                { clinica: auth && auth?.clinica?._id, name },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                }
+            );
+            setSearchStrorage(data)
+            setCurrentClients(data)
+        } catch (error) {
+            notify({
+                title: t(`${error}`),
+                description: "",
+                status: "error",
+            });
+        }
+    }
+
+    //=================================================
+    //=================================================
+
+    const getConnectorsByClientBorn = async (e) => {
+        try {
+            const data = await request(
+                `/api/offlineclient/client/getallreseption`,
+                "POST",
+                { clinica: auth && auth.clinica._id, clientborn: new Date(e) },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                }
+            );
+            setSearchStrorage(data)
+            setCurrentClients(data)
+        } catch (error) {
+            notify({
+                title: t(`${error}`),
+                description: "",
+                status: "error",
+            });
+        }
+    }
+
+    //=================================================
+    //=================================================
+
     const [baseUrl, setBaseUrl] = useState()
 
     const getBaseUrl = useCallback(async () => {
@@ -141,6 +191,7 @@ const OfflineClients = () => {
                 item.client.fullname.toLowerCase().includes(e.target.value.toLowerCase()),
             )
             setCurrentClients(searching.slice(0, countPage))
+            setName(e.target.value)
         }
 
     const setPageSize =
@@ -183,7 +234,7 @@ const OfflineClients = () => {
     const [age, setAge] = useState(null)
     const [gender, setGender] = useState(null)
     const [national, setNational] = useState(null)
-    
+
     const changeNational = (e) => {
         setNational(e.target.value)
     }
@@ -269,6 +320,7 @@ const OfflineClients = () => {
                                                 type="search"
                                                 className="w-100 form-control form-control-sm selectpicker"
                                                 placeholder={t("F.I.Sh")}
+                                                onKeyDown={(e) => e.key === 'Enter' && (name ? getByClientName() : getConnectors(beginDay, endDay))}
                                             />
                                         </div>
                                         <div className='text-right'>
@@ -284,6 +336,17 @@ const OfflineClients = () => {
                                                 setCurrentPage={setCurrentPage}
                                                 countPage={countPage}
                                                 totalDatas={searchStorage.length}
+                                            />
+                                        </div>
+                                        <div>
+                                            <input
+                                                onKeyDown={(e) => e.key === 'Enter' && getConnectorsByClientBorn(e.target.value)}
+                                                type="date"
+                                                name="born"
+                                                // onChange={(e) => setClientBorn(e.target.value)}
+                                                className="form-control inp"
+                                                placeholder=""
+                                                style={{ color: '#999' }}
                                             />
                                         </div>
                                         <div>
