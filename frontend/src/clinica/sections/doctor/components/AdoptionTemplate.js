@@ -790,6 +790,8 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
 
   }, [services]);
 
+  console.log(sections);
+
   useEffect(() => {
     if (connector && baseUrl) {
       QRCode.toDataURL(`${baseUrl}/clienthistory/laboratory/${connector._id}`)
@@ -1030,7 +1032,7 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
         <div className="pt-4 w-full text-center">
           {sections.length > 0 &&
             sections.map((section, index) => {
-              if (section.services.filter(serv => serv.column && serv.tables.length > 0).length > 0) {
+              if (section.services.filter(serv => serv.accept && serv.column && serv.tables.length > 0).length > 0) {
                 return <div key={index} className={"w-full mb-4 text-center"}>
                   <div className="w-full flex justify-center items-center mb-4">
                     <h2 className="block text-[18px] font-bold">
