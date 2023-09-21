@@ -305,7 +305,7 @@ module.exports.getProducts = async (req, res) => {
         .populate('client')
         .populate('connector')
         .populate('productid')
-        .populate('reseption')
+        .populate('reseption') 
         .populate('service')
         .lean()
 
