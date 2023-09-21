@@ -536,8 +536,7 @@ export const DoctorClients = () => {
   const searchFullname =
     (e) => {
       const searching = [...searchStorage].filter((item) => {
-        console.log(item);
-        return (item.client.firstname + item.client.lastname)
+        return (item?.client?.firstname + item?.client?.lastname)
           .toLowerCase()
           .includes(e.target.value.toLowerCase())
       });

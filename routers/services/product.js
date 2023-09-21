@@ -1,5 +1,10 @@
 const {Product, validateProduct} = require("../../models/Warehouse/Product");
 const {Warehouse,} = require("../../models/Warehouse/Warehouse");
+const {OfflineProduct} = require("../../models/OfflineClient/OfflineProduct");
+require("../../models/OfflineClient/OfflineClient");
+require("../../models/OfflineClient/OfflineConnector");
+require("../../models/OfflineClient/OfflineService");
+require("../../models/Users");
 const {Clinica} = require("../../models/DirectorAndClinica/Clinica");
 const {ProductConnector} = require("../../models/Warehouse/ProductConnector");
 
@@ -273,3 +278,43 @@ module.exports.deleteAll = async (req, res) => {
         res.status(501).json({error: "Serverda xatolik yuz berdi..."});
     }
 };
+
+
+module.exports.getProducts = async (req, res) => {
+    try {
+        const {clinica, beginDay, endDay} = req.body;
+
+        const clinic = await Clinica.findById(clinica);
+
+        if (!clinic) {
+            return res.status(400).json({
+                message: "Diqqat! Klinika ma'lumotlari topilmadi.",
+            });
+        }
+
+        const products = await OfflineProduct.find({
+            clinica,
+            refuse: false,
+            payment: true,
+            createdAt: {
+                $gte: beginDay,
+                $lte: endDay 
+            }
+        })
+        .select("-__v -updatedAt -isArchive")
+        .populate('client')
+        .populate('connector')
+        .populate('productid')
+        .populate('reseption')
+        .populate('service')
+        .lean()
+
+        // let connectors = 
+
+        res.status(200).json(products)
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({error: "Serverda xatolik yuz berdi..."});
+    }
+}
+

@@ -53,7 +53,7 @@ module.exports.payment = async (req, res) => {
 
                 const update = await OfflineService.findByIdAndUpdate(
                     service._id,
-                    {...service, payment: true}
+                    { ...service, payment: true }
                 );
 
                 //=========================================================
@@ -69,6 +69,29 @@ module.exports.payment = async (req, res) => {
                         product.total =
                             product.total + productconnector.pieces * service.pieces;
                         await product.save();
+
+                    }
+                    const offlineproducts = await OfflineProduct.find({
+                        clinica: service.clinica,
+                        connector: service.connector,
+                    })
+                    for (const offlineproduct of offlineproducts) {
+                        await OfflineProduct.findByIdAndUpdate(offlineproduct._id, {
+                            refuse: true,
+                            payment: false
+                        })
+                    }
+                } else {
+
+                    const offlineproducts = await OfflineProduct.find({
+                        clinica: service.clinica,
+                        connector: service.connector,
+                    })
+                    for (const offlineproduct of offlineproducts) {
+                        await OfflineProduct.findByIdAndUpdate(offlineproduct._id, {
+                            refuse: false,
+                            payment: true
+                        })
                     }
                 }
             });
@@ -144,9 +167,9 @@ module.exports.payment = async (req, res) => {
                 console.log(connector.services);
 
                 let newconnector = {
-                    ...connector, 
-                    services: connector.services.length === unpaymentServices.length ? [...connector.services] : [...connector.services].filter(service => unpaymentServices.includes(String(service._id))) 
-                
+                    ...connector,
+                    services: connector.services.length === unpaymentServices.length ? [...connector.services] : [...connector.services].filter(service => unpaymentServices.includes(String(service._id)))
+
                 }
                 return newconnector
             })

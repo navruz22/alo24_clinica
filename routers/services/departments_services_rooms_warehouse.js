@@ -151,6 +151,10 @@ router.post('/product/getall', auth, (req, res) => {
     require('./product').getAll(req, res)
 })
 
+router.post('/product/getproducts', auth, (req, res) => {
+    require('./product').getProducts(req, res)
+})
+
 router.post('/product/getallreseption', auth, (req, res) => {
     require('./product').getAllReseption(req, res)
 })
