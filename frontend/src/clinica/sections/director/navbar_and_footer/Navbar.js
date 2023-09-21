@@ -268,7 +268,7 @@ export const Navbar = ({clinica}) => {
             </li>
             {clinica?.isCreateUser && <li className="nav-item dropdown">
               <Link
-                className={`nav-link ${activePage === "/alo24/users"
+                className={`nav-link ${activePage === "/alo24/users" 
                   ? "active-page"
                   : ""
                   }`}

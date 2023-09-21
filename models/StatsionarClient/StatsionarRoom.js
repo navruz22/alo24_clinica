@@ -24,6 +24,7 @@ const room = new Schema(
         beginday: {type: Date, required: true, default: new Date()},
         endday: {type: Date, default: null},
         reseption: {type: Schema.Types.ObjectId, ref: 'User', required: true},
+        counterdoctor: {type: Schema.Types.ObjectId, ref: 'CounterDoctor'},
     },
     {
         timestamps: true,
@@ -40,6 +41,7 @@ function validateStatsionarRoom(clientroom) {
         beginday: Joi.date(),
         endday: Joi.date(),
         reseption: Joi.string(),
+        counterdoctor: Joi.string().optional(),
     })
 
     return schema.validate(clientroom)

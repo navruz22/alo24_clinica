@@ -76,6 +76,20 @@ const RegisterDoctor = ({ doctor, changeDoctorData, loading, checkData }) => {
                                     </div>
                                 </div>
                             </div>
+                            <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div className="form-group">
+                                    <label htmlFor="statsionar_profit">{t("Statsionar ulushi")}</label>
+                                    <input
+                                        value={doctor?.statsionar_profit}
+                                        onChange={changeDoctorData}
+                                        type="number"
+                                        className="form-control form-control-sm"
+                                        id="statsionar_profit"
+                                        name="statsionar_profit"
+                                        placeholder={t("Statsionar ulushi")}
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -8,6 +8,7 @@ const doctor = new Schema(
         clinica: { type: Schema.Types.ObjectId, ref: 'Clinica' },
         clinica_name: { type: String, required: true },
         phone: { type: String, required: true },
+        statsionar_profit: { type: Number, default: 0 },
         isArchive: { type: Boolean, default: false },
     },
     {

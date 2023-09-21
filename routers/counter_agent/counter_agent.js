@@ -1,13 +1,16 @@
 const { CounterDoctor } = require("../../models/CounterDoctor/CounterDoctor");
 const { Clinica } = require("../../models/DirectorAndClinica/Clinica");
 const { OfflineService } = require("../../models/OfflineClient/OfflineService");
+const { StatsionarRoom } = require("../../models/StatsionarClient/StatsionarRoom");
+require("../../models/StatsionarClient/StatsionarConnector");
+require("../../models/StatsionarClient/StatsionarClient");
 require("../../models/OfflineClient/OfflineClient");
 const { User } = require("../../models/Users");
 
 
 module.exports.create = async (req, res) => {
     try {
-        const { _id, clinica, firstname, lastname, counter_agent, clinica_name, phone } = req.body;
+        const { _id, clinica, firstname, lastname, counter_agent, clinica_name, phone, statsionar_profit } = req.body;
 
         const clinic = await Clinica.findById(clinica);
         if (!clinic) {
@@ -18,7 +21,8 @@ module.exports.create = async (req, res) => {
 
         if (_id) {
             await CounterDoctor.findByIdAndUpdate(_id, {
-                firstname: firstname, lastname: lastname, clinica_name: clinica_name, phone: phone
+                firstname: firstname, lastname: lastname, clinica_name: clinica_name, phone: phone,
+                statsionar_profit: statsionar_profit
             })
 
             const counterDoctor = await CounterDoctor.findByIdAndUpdate(_id)
@@ -33,7 +37,8 @@ module.exports.create = async (req, res) => {
                 clinica,
                 clinica_name,
                 counter_agent,
-                phone
+                phone,
+                statsionar_profit
             })
             await counterDoctor.save()
 
@@ -53,16 +58,6 @@ module.exports.get = async (req, res) => {
         let offlineservices = []
 
         if (!counterdoctor) {
-            // const counterDoctors = await CounterDoctor.find({
-            //     clinica,
-            //     counter_agent,
-            // })
-            //     .select('firstname lastname clinica_name')
-            //     .lean()
-            // let doctors = []
-            // for (const doctor of counterDoctors) {
-            //     doctors.push(doctor._id)
-            // }
             offlineservices = await OfflineService.find({
                 clinica,
                 createdAt: {
@@ -106,6 +101,57 @@ module.exports.get = async (req, res) => {
         }
 
         res.status(200).json(offlineservices);
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
+    }
+}
+
+module.exports.getStatsionarProfit = async (req, res) => {
+    try {
+        const { counterdoctor, counter_agent, beginDay, endDay, clinica } = req.body;
+
+        let statsionarrooms = []
+
+        if (!counterdoctor) {
+            statsionarrooms = await StatsionarRoom.find({
+                clinica,
+                createdAt: {
+                    $gte: beginDay,
+                    $lt: endDay,
+                },
+            })
+                .select('-__v -updatedAt -isArchive')
+                .populate("connector")
+                .populate('client', 'firstname lastname createdAt')
+                .populate({
+                    path: "counterdoctor",
+                    select: "-__v -updatedAt -isArchive",
+                    match: { counter_agent: counter_agent }
+                })
+                .lean()
+                .then(rooms => {
+                    console.log(rooms);
+                    return rooms.filter(room => room.counterdoctor)
+                })
+
+        } else {
+            statsionarrooms = await StatsionarRoom.find({
+                clinica,
+                createdAt: {
+                    $gte: beginDay,
+                    $lt: endDay,
+                },
+            })
+            .select('-__v -updatedAt -isArchive')
+                .populate('counterdoctor')
+                .populate('client', 'firstname lastname')
+                .lean()
+                .then(rooms => rooms.filter(room => room.counterdoctor && String(room.counterdoctor._id) === String(counterdoctor)))
+        }
+
+
+        res.status(200).json(statsionarrooms);
     } catch (error) {
         console.log(error);
         res.status(501).json({ error: "Serverda xatolik yuz berdi..." });

@@ -40,17 +40,6 @@ const Table = ({
                         </select>
                     </div>
                     <div className='w-[300px]'>
-                        {/* <select
-                                className="form-control form-control-sm selectpicker"
-                                placeholder="Bo'limni tanlang"
-                                onChange={changeCounterDoctor}
-                                style={{ minWidth: '50px' }}
-                            >
-                                <option value={'none'}>Hammasi</option>
-                                {counterDoctorsList.length > 0 && counterDoctorsList.map(item =>
-                                    <option value={item._id}>{item.firstname + ' ' + item.lastname}</option>
-                                )}
-                            </select> */}
                         <Select
                             value={selected}
                             options={[

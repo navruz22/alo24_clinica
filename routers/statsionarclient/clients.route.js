@@ -51,7 +51,7 @@ module.exports.register = async (req, res) => {
             connector,
             services,
             products,
-            counteragent,
+            counterdoctor,
             adver,
             room,
             offlineclient,
@@ -249,16 +249,6 @@ module.exports.register = async (req, res) => {
         newconnector.totalprice = totalprice
         await newconnector.save()
 
-        // if (counteragent) {
-        //     const newcounteragent = new StatsionarCounteragent({
-        //         client: newclient._id.toString(),
-        //         connector: newconnector._id.toString(),
-        //         services: [...newconnector.services],
-        //         counteragent,
-        //     })
-        //     await newcounteragent.save()
-        // }
-
         if (adver.adver) {
             const newadver = new StatsionarAdver({
                 client: newclient._id,
@@ -283,6 +273,11 @@ module.exports.register = async (req, res) => {
 
             newconnector.room = newroom._id
             await newconnector.save()
+
+            if (counterdoctor) {
+                newroom.counterdoctor = counterdoctor
+                await newroom.save()
+            }
         }
         newdaily.services = [...newconnector.services]
         newdaily.products = [...newconnector.products]

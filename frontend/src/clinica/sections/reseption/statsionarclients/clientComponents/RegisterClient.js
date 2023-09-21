@@ -383,7 +383,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="biO">{t("Kontragent")}</label>
+                                        <label htmlFor="biO">{t("Yullanma")}</label>
                                         <Select
                                             value={agentSelect}
                                             onChange={changeCounterAgent}

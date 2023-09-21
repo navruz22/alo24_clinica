@@ -67,7 +67,8 @@ const CreateCounterDoctor = () => {
         clinica_name: "",
         clinica: auth?.clinica?._id,
         counter_agent: auth?.user?._id,
-        phone: ""
+        phone: "",
+        statsionar_profit: ""
     })
 
     const changeDoctorData = (e) => {
@@ -92,7 +93,7 @@ const CreateCounterDoctor = () => {
             const data = await request(
                 `/api/counter_agent/doctor/create`,
                 "POST",
-                { ...doctor },
+                { ...doctor, statsionar_profit: Number(doctor?.statsionar_profit) || 0 },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }
@@ -109,6 +110,7 @@ const CreateCounterDoctor = () => {
                 phone: "",
                 clinica: auth?.clinica?._id,
                 counter_agent: auth?.user?._id,
+                statsionar_profit: ""
             })
             getDoctorsList()
         } catch (error) {
@@ -271,6 +273,9 @@ const CreateCounterDoctor = () => {
                                                     {t("Telefon raqami")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
+                                                    {t("Statsionar ulushi")}
+                                                </th>
+                                                <th className="border py-1 bg-alotrade text-[16px]">
                                                     {t("Tahrirlash")}
                                                 </th>
                                             </tr>
@@ -295,6 +300,9 @@ const CreateCounterDoctor = () => {
                                                         </td>
                                                         <td className="border py-1 text-left text-[16px]">
                                                             {connector?.phone && '+998' + connector?.phone}
+                                                        </td>
+                                                        <td className="border py-1 text-left text-[16px]">
+                                                            {connector?.statsionar_profit || 0}
                                                         </td>
                                                         <td className="border py-1 text-center text-[16px]">
                                                             {loading ? (
