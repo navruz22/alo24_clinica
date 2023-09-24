@@ -58,7 +58,7 @@ module.exports.getStatsionarDoctor = async (req, res) => {
                       (24 * 60 * 60 * 1000)
                     )
                   ) * el.room.room.price;
-                  const procient = el.room?.room?.doctorProcient || 0;
+                  const procient =  el.room.doctor_profit || 0;
                   const profit = procient > 100 ? procient : (roomprice / 100) * procient
                   return prev += profit;
             }, 0)

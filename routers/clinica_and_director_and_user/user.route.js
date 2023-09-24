@@ -9,7 +9,7 @@ const ObjectId = require("mongodb").ObjectId;
 
 module.exports.register = async (req, res) => {
   try {
-    
+
 
     const {
       _id,
@@ -23,18 +23,19 @@ module.exports.register = async (req, res) => {
       specialty,
       type,
       user,
-      signature
+      signature,
+      statsionar_profit
     } = req.body;
 
     if (type === 'Director' && _id) {
-      
+
       const hash = await bcrypt.hash(password, 8);
       const director = await Director.findByIdAndUpdate(
         _id,
         { ...req.body, clinica: clinica._id, password: hash }
       ).select("-password");
-  
-      return res.status(200).json({message: "Director o'zgarildi!"});
+
+      return res.status(200).json({ message: "Director o'zgarildi!" });
     }
 
     const { error } = validateUser(req.body);
@@ -49,7 +50,7 @@ module.exports.register = async (req, res) => {
         const hash = await bcrypt.hash(password, 8);
         req.body.password = hash;
       }
-      const update = await User.findByIdAndUpdate(_id, req.body);
+      const update = await User.findByIdAndUpdate(_id, {...req.body, statsionar_profit: Number(statsionar_profit) || 0});
 
       if (type === 'Doctor' || type === 'Laborotory') {
         const department = await Department.findById(specialty)
@@ -113,7 +114,8 @@ module.exports.register = async (req, res) => {
       type,
       specialty,
       user,
-      signature
+      signature,
+      statsionar_profit: Number(statsionar_profit) || 0
     });
     await newUser.save();
 
@@ -121,6 +123,9 @@ module.exports.register = async (req, res) => {
       const department = await Department.findById(specialty)
       department.doctor = newUser._id;
       await department.save();
+
+      newUser.statsionar_profit = statsionar_profit || 0
+      await newUser.save();
     }
 
     if (user) {
@@ -163,7 +168,7 @@ module.exports.login = async (req, res) => {
         select: 'name phone1 image'
       }
     })
-    .populate("specialty", "name")
+      .populate("specialty", "name")
 
     let user = null;
 

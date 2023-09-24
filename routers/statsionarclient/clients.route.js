@@ -40,6 +40,7 @@ const { OfflineDiscount } = require('../../models/Cashier/OfflineDiscount')
 const { OfflineClient } = require('../../models/OfflineClient/OfflineClient')
 const { StatsionarPayment } = require('../../models/Cashier/StatsionarPayment')
 const { StatsionarDiscount } = require('../../models/Cashier/StatsionarDiscount')
+const { User } = require('../../models/Users')
 require('../../models/Users')
 require('../../models/Services/Department')
 require('../../models/Services/ServiceType')
@@ -61,6 +62,9 @@ module.exports.register = async (req, res) => {
         delete client._id
         delete connector._id
 
+        // const doct = await User.findById(connector.doctor)
+        // console.log(doct);
+        // return 
         //=========================================================
         // CheckData
         // const checkClient = validateStatsionarClient(client).error
@@ -263,12 +267,17 @@ module.exports.register = async (req, res) => {
             const roomm = await Room.findById(room.roomid)
             roomm.position = true
             await roomm.save()
-
+ 
             const newroom = new StatsionarRoom({
                 ...room,
                 connector: newconnector._id,
                 client: newclient._id,
             })
+            // await newroom.save()
+
+            const doct = await User.findById(connector.doctor)
+            console.log(doct);
+            newroom.doctor_profit = doct.statsionar_profit || 0
             await newroom.save()
 
             newconnector.room = newroom._id

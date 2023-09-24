@@ -195,6 +195,19 @@ export const RegistorUser = ({
                           })}
                       </select>
                     </div>
+                    <div className="form-group">
+                      <label htmlFor="statsionar_profit">{t("Statsionar ulushi")}</label>
+                      <input
+                        onChange={changeHandler}
+                        onKeyUp={keyPressed}
+                        type="number"
+                        className="form-control"
+                        id="statsionar_profit"
+                        name="statsionar_profit"
+                        placeholder="Statsionar ulushi"
+                        defaultValue={user?.statsionar_profit || ""}
+                      />
+                    </div>
                   </div>
                 ) : (
                   ""

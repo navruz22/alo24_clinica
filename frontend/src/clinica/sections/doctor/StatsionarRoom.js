@@ -1,28 +1,25 @@
 import { useToast } from "@chakra-ui/react";
-import { useCallback } from "react";
-import { useContext } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
-import { AuthContext } from "../../../context/AuthContext";
-import { useHttp } from "../../../hooks/http.hook";
-import { DatePickers } from "../../doctor/doctorclients/clientComponents/DatePickers";
-import { Pagination } from "../components/Pagination";
-import ReactHtmlTableToExcel from 'react-html-table-to-excel';
-import { faAngleDown, faAngleUp, faPrint } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Select from "react-select"
+import { useCallback, useContext, useEffect, useState } from "react";
+import ReactHtmlTableToExcel from "react-html-table-to-excel";
 import { useTranslation } from "react-i18next";
+import { AuthContext } from "../../context/AuthContext";
+import { useHttp } from "../../hooks/http.hook";
+import { Pagination } from "./components/Pagination";
+import { DatePickers } from "./doctorclients/clientComponents/DatePickers";
 
-const StatsionarRoomDoctor = () => {
+const StatsionarRoom = () => {
 
-    const { doctor, startDate, endDate } = useLocation().state
+    // const { doctor, startDate, endDate } = useLocation().state
     // console.log(doctor);
     //======================================================
     //======================================================
 
-    const [beginDay, setBeginDay] = useState(startDate);
-    const [endDay, setEndDay] = useState(endDate);
+    const [beginDay, setBeginDay] = useState(
+        new Date(new Date().setUTCHours(0, 0, 0, 0))
+      );
+      const [endDay, setEndDay] = useState(
+        new Date(new Date().setDate(new Date().getDate() + 1))
+      );
 
     //======================================================
     //======================================================
@@ -75,7 +72,7 @@ const StatsionarRoomDoctor = () => {
                 const data = await request(
                     `/api/doctor/statsionardoctors/room/get`,
                     "POST",
-                    { doctor: doctor._id, beginDay: beginDay, endDay: endDay },
+                    { doctor: auth?.user?._id, beginDay: beginDay, endDay: endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
@@ -93,36 +90,11 @@ const StatsionarRoomDoctor = () => {
                 });
             }
         },
-        [request, auth, notify, doctor]
+        [request, auth, notify]
     );
 
     //=======================================================
     //=======================================================
-
-    const [departments, setDepartments] = useState([])
-
-    const getDepartments = useCallback(async () => {
-        try {
-            const data = await request(
-                `/api/services/department/getall`,
-                'POST',
-                { clinica: auth.clinica._id },
-                {
-                    Authorization: `Bearer ${auth.token}`,
-                },
-            )
-            setDepartments([...data].map((deparmtent) => ({
-                label: deparmtent.name,
-                value: deparmtent._id
-            })))
-        } catch (error) {
-            notify({
-                title: t(`${error}`),
-                description: '',
-                status: 'error',
-            })
-        }
-    }, [request, auth, notify])
 
     //=======================================================
     //=======================================================
@@ -182,8 +154,8 @@ const StatsionarRoomDoctor = () => {
     // }, [getDirectDoctors, getDepartments, t, beginDay, endDay])
 
     useEffect(() => {
-        getDirectDoctors(startDate, endDate)
-    }, [getDirectDoctors, startDate, endDate])
+        getDirectDoctors(beginDay, endDay)
+    }, [getDirectDoctors, beginDay, endDay])
 
 
     return (
@@ -204,9 +176,9 @@ const StatsionarRoomDoctor = () => {
                                 <option value={'all'}>Barchasi</option>
                             </select>
                         </div>
-                        <div>
+                        {/* <div>
                             <h2 className="text-[16px] font-bold">{doctor.firstname + ' ' + doctor.lastname}</h2>
-                        </div>
+                        </div> */}
                         <div>
                             <input
                                 onChange={searchFullname}
@@ -371,4 +343,4 @@ const StatsionarRoomDoctor = () => {
     )
 }
 
-export default StatsionarRoomDoctor;
+export default StatsionarRoom;

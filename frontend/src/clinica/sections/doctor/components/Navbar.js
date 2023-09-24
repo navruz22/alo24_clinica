@@ -170,6 +170,20 @@ export const Navbar = () => {
                   {t("Online")}
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${activePage === "/alo24/statsionar_room" ? "active-page" : ""
+                    }`}
+                  onClick={() => {
+                    setActivePage("/alo24/statsionar_room");
+                  }}
+                  to="/alo24/statsionar_room"
+                  style={{ background: activePage === "/alo24/statsionar_room" ? "#F97316" : "" }}
+                >
+                  <i className="icon-devices_other nav-icon" />
+                  {t("Statsionar ulushi")}
+                </Link>
+              </li>
             </ul>
             <ul className="header-actions py-1 mr-2">
               <li className="dropdown">

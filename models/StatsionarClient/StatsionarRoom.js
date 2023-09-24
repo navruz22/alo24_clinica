@@ -21,6 +21,7 @@ const room = new Schema(
             required: true,
         },
         room: {type: Object},
+        doctor_profit: {type: Number},
         beginday: {type: Date, required: true, default: new Date()},
         endday: {type: Date, default: null},
         reseption: {type: Schema.Types.ObjectId, ref: 'User', required: true},
