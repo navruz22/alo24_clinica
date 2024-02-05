@@ -49,7 +49,7 @@ module.exports.register = async (req, res) => {
       phone,
       password: hash,
       clinica,
-      type: "Director",
+      type: "Director"
     });
     await newDirector.save();
 

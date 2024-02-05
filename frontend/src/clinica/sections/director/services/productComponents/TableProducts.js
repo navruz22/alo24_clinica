@@ -121,6 +121,9 @@ export const TableProducts = ({
                 <th className="border-right bg-alotrade text-[16px]">
                   {t("Soni")}
                 </th>
+                <th className="border-right bg-alotrade text-[16px]">
+                  {t("Minimum")}
+                </th>
                 <th className="border-right text-center bg-alotrade text-[16px]">{t("Tahrirlash")}</th>
                 <th className="text-center bg-alotrade text-[16px]">{t("O'chirish")}</th>
               </tr>
@@ -136,6 +139,7 @@ export const TableProducts = ({
                     <td className="border-right text-[16px]">{product.unit}</td>
                     <td className="border-right text-[16px]">{product.price}</td>
                     <td className="border-right text-[16px]">{product.total}</td>
+                    <td className="border-right text-[16px]">{product?.minimum}</td>
                     <td className="border-right text-[16px] text-center">
                       <button
                         id={`btn${key}`}

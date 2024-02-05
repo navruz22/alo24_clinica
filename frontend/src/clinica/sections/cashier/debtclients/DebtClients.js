@@ -361,6 +361,8 @@ export const DebtClients = () => {
         description: "",
         status: "success",
       });
+      getOfflineDebts(beginDay, endDay);
+      getStatsionarDebts(beginDay, endDay);
     } catch (error) {
       notify({
         title: error,
@@ -396,6 +398,8 @@ export const DebtClients = () => {
         description: "",
         status: "success",
       });
+      getOfflineDebts(beginDay, endDay);
+      getStatsionarDebts(beginDay, endDay);
     } catch (error) {
       notify({
         title: error,

@@ -254,6 +254,14 @@ export const checkProduct = (product) => {
       status: "error",
     };
   }
+
+  if (!product.minimum) {
+    return {
+      title: `Diqqat! minimum qiymat kiritilmagan.`,
+      description: "Iltimos minimum qiymat kiriting!",
+      status: "error",
+    };
+  }
   return false;
 };
 

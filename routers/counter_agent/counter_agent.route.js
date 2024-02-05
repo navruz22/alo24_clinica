@@ -22,4 +22,16 @@ router.post('/counter_agent/get', auth, (req, res) => {
     require('./counter_agent').getCounterAgents(req, res);
 })
 
+router.post('/counter_agent/visit/create', auth, (req, res) => {
+    require('./agent_visit').create(req, res);
+})
+
+router.post('/counter_agent/visit/get', auth, (req, res) => {
+    require('./agent_visit').get(req, res);
+})
+
+router.post('/counter_agent/visit/edit', auth, (req, res) => {
+    require('./agent_visit').edit(req, res);
+})
+
 module.exports = router;

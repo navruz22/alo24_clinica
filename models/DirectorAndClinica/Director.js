@@ -28,7 +28,7 @@ function validateDirector(director) {
     password: Joi.string().required(),
     clinica: Joi.string(),
     type: Joi.string(),
-    confirmPassword: Joi.string(),
+    confirmPassword: Joi.string()
   });
 
   return schema.validate(director);

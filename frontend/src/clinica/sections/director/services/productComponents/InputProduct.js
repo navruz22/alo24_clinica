@@ -23,6 +23,7 @@ export const InputProduct = ({
               <th className="bg-alotrade text-[16px]">{t("O'lchov birligi")}</th>
               <th className="bg-alotrade text-[16px]">{t("Sotuv narxi")}</th>
               <th className="bg-alotrade text-[16px]">{t("Soni")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Minimum")}</th>
               <th className="bg-alotrade text-[16px]">{t("Saqlash")}</th>
             </tr>
           </thead>
@@ -91,6 +92,19 @@ export const InputProduct = ({
                   type="number"
                   className="form-control w-75"
                   id="total"
+                  // placeholder={t("Mahsulot sonini kiriting")}
+                />
+              </td>
+              <td>
+                <input
+                  style={{ minWidth: "70px" }}
+                  name="minimum"
+                  value={product.minimum}
+                  onKeyUp={keyPressed}
+                  onChange={inputHandler}
+                  type="number"
+                  className="form-control w-75"
+                  id="minimum"
                   // placeholder={t("Mahsulot sonini kiriting")}
                 />
               </td>

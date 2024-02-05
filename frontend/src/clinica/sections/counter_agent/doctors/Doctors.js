@@ -178,7 +178,7 @@ const Doctors = () => {
                     Authorization: `Bearer ${auth.token}`,
                 }
             );
-            setDoctors(data)
+            setDoctors(data) 
         } catch (error) {
             notify({
                 title: error,

@@ -174,7 +174,7 @@ module.exports.paymentStatsionar = async (req, res) => {
         // CreatePayment
         const newpayment = new StatsionarPayment({ ...payment });
         await newpayment.save();
-
+        console.log(payment);
         const updateConnector = await StatsionarConnector.findById(payment.connector);
         updateConnector.payments.push(newpayment._id);
         await updateConnector.save()

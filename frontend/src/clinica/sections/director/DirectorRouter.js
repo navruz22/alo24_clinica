@@ -10,6 +10,7 @@ import OfflineClients from "./clients/OfflineClients";
 import StatsionarClients from "./clients/StatsionarClients";
 import CounterAgent from "./counteragent/CounterAgent";
 import CounterAgentInfo from "./counteragent/CounterAgentInfo";
+import VisitInfo from "./counteragent/VisitInfo";
 import CounterDoctors from "./counter_doctors/CounterDoctors";
 import DirectDoctors from "./directdoctors/DirectDoctors";
 import DirectServices from "./directdoctors/DirectServices";
@@ -113,6 +114,9 @@ export const DirectorRouter = () => {
         </Route>
         <Route path="/alo24/counteragent_info">
           <CounterAgentInfo />
+        </Route>
+        <Route path="/alo24/visit_info">
+          <VisitInfo />
         </Route>
         {/* Users */}
         <Route path="/alo24/users">

@@ -69,7 +69,7 @@ module.exports.register = async (req, res) => {
             });
         }
 
-        const {name, unit, price, total, clinica} = req.body;
+        const {name, unit, price, total, clinica, minimum} = req.body;
 
         const clinic = await Clinica.findById(clinica);
 
@@ -96,6 +96,7 @@ module.exports.register = async (req, res) => {
             price,
             total,
             clinica,
+            minimum
         });
         await newProduct.save();
 
@@ -155,7 +156,7 @@ module.exports.getAllReseption = async (req, res) => {
 //Product update
 module.exports.update = async (req, res) => {
     try {
-        const {_id, name, unit, price, clinica} = req.body;
+        const {_id, name, unit, price, clinica, total, minimum} = req.body;
 
         const clinic = await Clinica.findById(clinica);
 
@@ -175,6 +176,8 @@ module.exports.update = async (req, res) => {
         product.name = name;
         product.unit = unit;
         product.price = price;
+        product.minimum = minimum;
+        product.total = total;
         await product.save();
 
         res.send(product);

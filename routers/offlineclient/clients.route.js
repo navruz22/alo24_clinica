@@ -29,6 +29,7 @@ const { ServiceTable } = require("../../models/Services/ServiceTable");
 const { ServiceType } = require("../../models/Services/ServiceType");
 const { CounterDoctor } = require('../../models/CounterDoctor/CounterDoctor')
 const { Department } = require('../../models/Services/Department')
+const { checkMinimum } = require('../tgbot/bot_controller')
 require('../../models/Cashier/OfflinePayment')
 require('../../models/Users')
 
@@ -42,6 +43,7 @@ module.exports.register = async (req, res) => {
             products,
             counterdoctor,
             adver,
+            clinica
         } = req.body
         //=========================================================
         // CheckData
@@ -211,6 +213,8 @@ module.exports.register = async (req, res) => {
                 })
     
                 await newproduct.save()
+
+                checkMinimum(product._id, client.clinica)
             }
         }
 
@@ -239,6 +243,8 @@ module.exports.register = async (req, res) => {
 
             newconnector.products.push(newproduct._id)
             await newconnector.save()
+
+            checkMinimum(produc._id, client.clinica)
         }
 
         newconnector.totalprice = totalprice
@@ -419,6 +425,8 @@ module.exports.add = async (req, res) => {
                 })
     
                 await newproduct.save()
+
+                checkMinimum(product._id, client.clinica)
             }
         }
 
@@ -430,7 +438,7 @@ module.exports.add = async (req, res) => {
                 return res.status(400).json({
                     error: error.message,
                 })
-            }
+            } 
 
             const produc = await Product.findById(product.productid)
             produc.total = produc.total - product.pieces
@@ -446,6 +454,8 @@ module.exports.add = async (req, res) => {
             totalprice += product.product.price * product.pieces
 
             updateOfflineConnector.products.push(newproduct._id)
+
+            checkMinimum(produc._id, client.clinica)
         }
 
         if (counterdoctor) {

@@ -19,6 +19,7 @@ const clinica = new Schema(
     ifud2: {type: String},
     ifud3: {type: String},
     inn: { type: Number },
+    telegramId: {type: String},
     mainclinica: { type: Boolean, default: false },
     filials: [{ type: Schema.Types.ObjectId, ref: "Clinica" }],
     isFilial: { type: Boolean, default: false },
@@ -58,6 +59,7 @@ function validateClinica(clinica) {
     ifud1: Joi.string(),
     ifud2: Joi.string(),
     ifud3: Joi.string(),
+    telegramId: Joi.string(),
     close_date: Joi.date().optional(),
     // isCreateUser: Joi.boolean().optional(),
   })

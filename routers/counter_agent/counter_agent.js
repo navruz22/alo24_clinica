@@ -144,7 +144,7 @@ module.exports.getStatsionarProfit = async (req, res) => {
                     $lt: endDay,
                 },
             })
-            .select('-__v -updatedAt -isArchive')
+                .select('-__v -updatedAt -isArchive')
                 .populate('counterdoctor')
                 .populate('client', 'firstname lastname')
                 .lean()

@@ -72,7 +72,8 @@ module.exports.register = async (req, res) => {
       ifud1,
       ifud2,
       ifud3,
-      close_date
+      close_date,
+      telegramId
     } = req.body
 
     const clinica = await Clinica.find({ name })
@@ -105,6 +106,7 @@ module.exports.register = async (req, res) => {
       ifud3,
       close_date,
       isClose: false,
+      telegramId
     })
 
     await newClinica.save()

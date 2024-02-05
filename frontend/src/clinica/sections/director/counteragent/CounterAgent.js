@@ -17,7 +17,7 @@ const animatedComponents = makeAnimated()
 
 const CounterAgent = () => {
 
-    const {t} = useTranslation()
+    const { t } = useTranslation()
 
     const history = useHistory()
 
@@ -366,12 +366,7 @@ const CounterAgent = () => {
                                                             {connector?.counteragent_profit}
                                                         </td>
                                                         <td className="border py-1 text-[16px] text-center">
-                                                            {loading ? (
-                                                                <button className="btn btn-success" disabled>
-                                                                    <span class="spinner-border spinner-border-sm"></span>
-                                                                    Loading...
-                                                                </button>
-                                                            ) : (
+                                                            <div className='flex gap-4'>
                                                                 <button
                                                                     onClick={() => {
                                                                         history.push('/alo24/counteragent_info', {
@@ -379,12 +374,24 @@ const CounterAgent = () => {
                                                                         })
                                                                     }}
                                                                     type="button"
-                                                                    className="bg-alotrade rounded text-white font-semibold py-1 px-2"
+                                                                    className="bg-alotrade w-full rounded text-white font-semibold py-1 px-2"
                                                                     style={{ fontSize: '75%' }}
                                                                 >
-                                                                    {t("Batafsil")}
+                                                                    {t("Hisobot")}
                                                                 </button>
-                                                            )}
+                                                                <button
+                                                                    onClick={() => {
+                                                                        history.push('/alo24/visit_info', {
+                                                                            connector
+                                                                        })
+                                                                    }}
+                                                                    type="button"
+                                                                    className="bg-alotrade w-full rounded text-white font-semibold py-1 px-2"
+                                                                    style={{ fontSize: '75%' }}
+                                                                >
+                                                                    {t("Tashrif")}
+                                                                </button>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 );

@@ -374,6 +374,29 @@ export const ClinicaRegister = ({ onFinishCreate, onFinishUpdate, clinicaData })
                         <FormLabel
                           style={{ color: "#38B2AC", marginTop: "1rem" }}
                         >
+                          Telegram ID
+                        </FormLabel>
+                        <Input
+                          onKeyUp={keyPressed}
+                          placeholder="Telegram ID kiriting"
+                          size="sm"
+                          style={
+                            clinica.telegramId &&
+                              clinica.telegramId.length > 0
+                              ? styleGreen
+                              : styleDefault
+                          }
+                          name="telegramId"
+                          defaultValue={clinica.telegramId && clinica.telegramId}
+                          onChange={changeHandler}
+                        />
+                      </FormControl>
+                    </div>
+                    <div className="col-md-12">
+                      <FormControl>
+                        <FormLabel
+                          style={{ color: "#38B2AC", marginTop: "1rem" }}
+                        >
                           Manzil
                         </FormLabel>
                         <Input
