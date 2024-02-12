@@ -196,9 +196,7 @@ const VisitPage = () => {
                 }
             );
             setSearchStorage(data);
-            setCurrentDatas(
-                data.slice(indexFirstConnector, indexLastConnector)
-            );
+            setCurrentDatas(data);
         } catch (error) {
             notify({
                 title: error,
@@ -206,7 +204,7 @@ const VisitPage = () => {
                 status: "error",
             });
         }
-    }, [auth, request, notify, indexFirstConnector, indexLastConnector])
+    }, [auth, request, notify])
 
     const [n, setN] = useState(0);
 
@@ -315,7 +313,7 @@ const VisitPage = () => {
                         </div>
                         <div className={` ${visible ? "" : "d-none"}`}>
                             <div className="w-full flex flex-col items-center bg-white p-2">
-                                <div className="card w-[50%]">
+                                <div className="card md:w-[50%]">
                                     <div className="card-header">
                                         <div className="card-title">{t("Yunaltiruvchi shifokor ma'lumotlari")}</div>
                                     </div>
@@ -380,8 +378,8 @@ const VisitPage = () => {
                         </div>
                         <div className="border-0 table-container mt-6">
                             <div className="border-0 table-container">
-                                <div className="bg-white flex gap-6 items-center py-2 px-2">
-                                    <div>
+                                <div className="bg-white flex gap-6 flex-wrap md:flex-nowrap items-center py-2 px-2">
+                                    {/* <div>
                                         <select
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Bo'limni tanlang"
@@ -393,7 +391,7 @@ const VisitPage = () => {
                                             <option value={50}>50</option>
                                             <option value={'all'}>{t("Barchasi")}</option>
                                         </select>
-                                    </div>
+                                    </div> */}
                                     <div className='w-[300px]'>
                                         <Select
                                             options={[
@@ -413,7 +411,7 @@ const VisitPage = () => {
                                             placeholder={t("Tanlang...")}
                                         />
                                     </div>
-                                    <div className="text-center ml-auto ">
+                                    {/* <div className="text-center ml-auto ">
                                         <Pagination
                                             setCurrentDatas={setCurrentDatas}
                                             datas={currentDatas}
@@ -421,9 +419,9 @@ const VisitPage = () => {
                                             countPage={countPage}
                                             totalDatas={searchStorage.length}
                                         />
-                                    </div>
+                                    </div> */}
                                     <div
-                                        className="text-center ml-auto flex gap-2"
+                                        className="flex gap-2 w-[300px]"
                                         style={{ overflow: 'hidden' }}
                                     >
                                         <DatePickers changeDate={changeStart} />
