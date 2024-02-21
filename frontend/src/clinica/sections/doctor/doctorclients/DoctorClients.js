@@ -146,10 +146,10 @@ export const DoctorClients = () => {
         // setCurrentDoctorClients(
         //   [...data].filter(item => item.connector.room.endday === null).slice(indexFirstConnector, indexLastConnector)
         // );
-        setDoctorClients([...data].filter(connector => connector.services.filter(service => !service.department.probirka && service.accept).length < 1));
+        setDoctorClients([...data]);
         setSearchStorage(data);
         setCurrentDoctorClients(
-          [...data].filter(connector => connector.services.filter(service => !service.department.probirka && service.accept).length < 1).slice(indexFirstConnector, indexLastConnector)
+          [...data].slice(indexFirstConnector, indexLastConnector)
         );
       } catch (error) {
         notify({

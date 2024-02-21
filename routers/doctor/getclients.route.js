@@ -85,7 +85,7 @@ module.exports.getAll = async (req, res) => {
         .populate('payments')
         .lean()
         .then(connectors => connectors.filter(connector =>
-          connector.services.some(service => String(service.department._id) === String(department)) &&
+          connector.services.some(service => service.department && String(service.department._id) === String(department._id)) &&
           connector.client && (new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString())
         ))
     } else if (name) {
@@ -280,10 +280,9 @@ module.exports.getStatsionarAll = async (req, res) => {
         .populate('room', 'beginday endday room')
         .populate('payments')
         .lean()
-        .then(connectors => connectors.filter(connector =>
-          connector.services.some(service => String(service.department._id) === String(department)) &&
-          new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
-        ))
+        .then(connectors => connectors.filter(connector => 
+             connector.services.some(service => service.department && String(service.department._id) === String(department._id)) &&
+            new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()))
     } else if (name) {
       connectors = await StatsionarConnector.find({
         clinica,
@@ -438,7 +437,7 @@ module.exports.getStatsionarAll = async (req, res) => {
           connector.services.some(service => String(service.department._id) === String(department))
         ))
     }
-
+    console.log(connectors);
     if (connectors.length > 0) {
       for (const connector of connectors) {
         clients.push({
