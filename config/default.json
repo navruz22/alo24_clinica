@@ -3,5 +3,6 @@
     "mongoUri": "mongodb://localhost/alo24",
     "jwtSecret": "alo24",
     "baseUrl":"http://localhost:9900",
-    "botToken": "6448433447:AAFR-suFV-wVfISyDtvb8LCIKX64SDAbfCg"
+    "botToken": "6448433447:AAFR-suFV-wVfISyDtvb8LCIKX64SDAbfCg",
+    "smsKey": "350fa2c20704462791918c0d3868068874700d02"
 }

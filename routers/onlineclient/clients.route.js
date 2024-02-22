@@ -1,11 +1,24 @@
-const {Product} = require('../../models/Warehouse/Product')
-const {Clinica} = require('../../models/DirectorAndClinica/Clinica')
+const axios = require('axios');
+const config = require("config")
+const { Product } = require('../../models/Warehouse/Product')
+const { Clinica } = require('../../models/DirectorAndClinica/Clinica')
 require('../../models/Services/Department')
-const {User} = require('../../models/Users')
+const { User } = require('../../models/Users')
 const {
     OnlineClient,
     validateOnlineClient,
 } = require('../../models/OnlineClient/OnlineClient')
+
+
+const handleSend = async (number, message) => {
+    axios.get(`https://smsapp.uz/new/services/send.php?key=${config.get('smsKey')}&number=${number}&message=${message}`)
+        .then(res => {
+            console.log('ok');
+        })
+        .catch(err => {
+            console.log('Error: ', err.message);
+        });
+}
 
 
 // register
@@ -27,15 +40,21 @@ module.exports.register = async (req, res) => {
         //=========================================================
         // CreateClient
 
-        const newclient = new OnlineClient({...client})
+        const newclient = new OnlineClient({ ...client })
         await newclient.save()
 
         const response = await OnlineClient.findById(newclient._id)
 
+        const clientData = await OnlineClient.findById(newclient._id)
+            .populate("clinica", 'name')
+            .populate("department", 'name')
+
+        handleSend(`998${clientData.phone}`, `Xuramtli ${clientData.firstname} ${clientData.lastname}! Eslatib o'tamiz, siz ${new Date(clientData.brondate).toLocaleDateString('ru-RU')} kuni, soat ${new Date(clientData.brondate).toLocaleTimeString('ru-RU')} da ${clientData.clinica.name} ning ${clientData.department.name} bo'limiga qabulga yozilgansiz! Iltimos kech qolmang! Ma'lumot uchun: +998992234244`)
+
         res.status(201).send(response)
     } catch (error) {
         console.log(error);
-        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
 
@@ -45,21 +64,21 @@ module.exports.update = async (req, res) => {
             client
         } = req.body
         //=========================================================
-        
 
-        await OnlineClient.findByIdAndUpdate(client._id, {...client})
+
+        await OnlineClient.findByIdAndUpdate(client._id, { ...client })
 
         const response = await OnlineClient.findById(client._id)
-        
+
         res.status(201).send(response)
     } catch (error) {
-        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
 
 module.exports.getDoctors = async (req, res) => {
     try {
-        const {clinica} = req.body;
+        const { clinica } = req.body;
 
         const clinic = await Clinica.findById(clinica)
 
@@ -72,14 +91,14 @@ module.exports.getDoctors = async (req, res) => {
         const doctors = await User.find({
             clinica
         })
-        .select("firstname lastname specialty type")
-        .populate('specialty', 'name')
-        .lean()
-        .then(doctors => doctors.filter(doctor => {
-            if (doctor.type === 'Laborotory' || doctor.type === 'Doctor') {
-                return doctor.specialty;
-            }
-        }))
+            .select("firstname lastname specialty type")
+            .populate('specialty', 'name')
+            .lean()
+            .then(doctors => doctors.filter(doctor => {
+                if (doctor.type === 'Laborotory' || doctor.type === 'Doctor') {
+                    return doctor.specialty;
+                }
+            }))
 
         for (const doctor of doctors) {
             const clients = await OnlineClient.find({
@@ -92,17 +111,17 @@ module.exports.getDoctors = async (req, res) => {
             })
             doctor.clients = clients.length;
         }
-        
+
         res.status(201).send(doctors)
     } catch (error) {
         console.log(error);
-        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
 
 module.exports.getClients = async (req, res) => {
     try {
-        const {department, clinica, beginDay, type} = req.body;
+        const { department, clinica, beginDay, type } = req.body;
 
         const clinic = await Clinica.findById(clinica)
 
@@ -123,8 +142,8 @@ module.exports.getClients = async (req, res) => {
                     $lte: beginDay
                 }
             })
-            .select('-__v -updatedAt -isArchive')
-            .lean()
+                .select('-__v -updatedAt -isArchive')
+                .lean()
         } else {
             clients = await OnlineClient.find({
                 clinica,
@@ -133,14 +152,14 @@ module.exports.getClients = async (req, res) => {
                     $gte: beginDay
                 }
             })
-            .select('-__v -updatedAt -isArchive')
-            .lean()
+                .select('-__v -updatedAt -isArchive')
+                .lean()
         }
 
         res.status(200).json(clients)
     } catch (error) {
         console.log(error);
-        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
 
@@ -150,13 +169,13 @@ module.exports.deleteClient = async (req, res) => {
             id
         } = req.body
         //=========================================================
-        
+
 
         await OnlineClient.findByIdAndDelete(id)
-        
-        res.status(201).send({message: "Mijoz o'chirildi"})
+
+        res.status(201).send({ message: "Mijoz o'chirildi" })
     } catch (error) {
         console.log(error);
-        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
