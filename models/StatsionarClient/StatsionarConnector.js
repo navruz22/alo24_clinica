@@ -1,10 +1,10 @@
-const {Schema, model, Types} = require('mongoose')
+const { Schema, model, Types } = require('mongoose')
 const Joi = require('joi')
 
 const connector = new Schema(
     {
-        clinica: {type: Schema.Types.ObjectId, ref: 'Clinica', required: true},
-        isArchive: {type: Boolean, default: false},
+        clinica: { type: Schema.Types.ObjectId, ref: 'Clinica', required: true },
+        isArchive: { type: Boolean, default: false },
         client: {
             type: Schema.Types.ObjectId,
             ref: 'StatsionarClient',
@@ -19,11 +19,11 @@ const connector = new Schema(
             ref: 'User',
             required: true,
         },
-        services: [{type: Schema.Types.ObjectId, ref: 'StatsionarService'}],
-        products: [{type: Schema.Types.ObjectId, ref: 'StatsionarProduct'}],
-        payments: [{type: Schema.Types.ObjectId, ref: 'StatsionarPayment'}],
-        accept: {type: Boolean, default: false},
-        totalprice: {type: Number},
+        services: [{ type: Schema.Types.ObjectId, ref: 'StatsionarService' }],
+        products: [{ type: Schema.Types.ObjectId, ref: 'StatsionarProduct' }],
+        payments: [{ type: Schema.Types.ObjectId, ref: 'StatsionarPayment' }],
+        accept: { type: Boolean, default: false },
+        totalprice: { type: Number },
         dailys: [
             {
                 type: Schema.Types.ObjectId,
@@ -34,8 +34,9 @@ const connector = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'StatsionarRoom',
         },
-        diagnosis: {type: String},
-        discount: {type: Schema.Types.ObjectId, ref: 'StatsionarDiscount'},
+        isSended: { type: Boolean, default: false },
+        diagnosis: { type: String },
+        discount: { type: Schema.Types.ObjectId, ref: 'StatsionarDiscount' },
 
         // payment: { type: Schema.Types.ObjectId, ref: 'StatsionarProduct' } // To'lovlarni qabul qilingan Idsi kiritiladi
     },

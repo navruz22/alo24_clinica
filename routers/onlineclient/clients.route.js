@@ -10,8 +10,8 @@ const {
 } = require('../../models/OnlineClient/OnlineClient')
 
 
-const handleSend = async (number, message) => {
-    axios.get(`https://smsapp.uz/new/services/send.php?key=${config.get('smsKey')}&number=${number}&message=${message}`)
+const handleSend = async (smsKey, number, message) => {
+    axios.get(`https://smsapp.uz/new/services/send.php?key=${smsKey}&number=${number}&message=${message}`)
         .then(res => {
             console.log('ok');
         })
@@ -46,10 +46,10 @@ module.exports.register = async (req, res) => {
         const response = await OnlineClient.findById(newclient._id)
 
         const clientData = await OnlineClient.findById(newclient._id)
-            .populate("clinica", 'name')
+            .populate("clinica")
             .populate("department", 'name')
 
-        handleSend(`998${clientData.phone}`, `Xuramtli ${clientData.firstname} ${clientData.lastname}! Eslatib o'tamiz, siz ${new Date(clientData.brondate).toLocaleDateString('ru-RU')} kuni, soat ${new Date(clientData.brondate).toLocaleTimeString('ru-RU')} da ${clientData.clinica.name} ning ${clientData.department.name} bo'limiga qabulga yozilgansiz! Iltimos kech qolmang! Ma'lumot uchun: +998992234244`)
+        handleSend(clientData.clinica.smsKey, `998${clientData.phone}`, `Xuramtli ${clientData.firstname} ${clientData.lastname}! Eslatib o'tamiz, siz ${new Date(clientData.brondate).toLocaleDateString('ru-RU')} kuni, soat ${new Date(clientData.brondate).getHours()}:${new Date(clientData.brondate).getMinutes() < 10 ? '0' + new Date(brondate).getMinutes() : new Date(brondate).getMinutes()} da ${clientData.clinica.name} ning ${clientData.department.name} bo'limiga qabulga yozilgansiz! Iltimos kech qolmang! Ma'lumot uchun: +998992234244`)
 
         res.status(201).send(response)
     } catch (error) {

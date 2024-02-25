@@ -43,7 +43,7 @@ module.exports.register = async (req, res) => {
             products,
             counterdoctor,
             adver,
-            clinica
+            clinica,
         } = req.body
         //=========================================================
         // CheckData
@@ -68,7 +68,7 @@ module.exports.register = async (req, res) => {
         //     (await OfflineClient.find({ clinica: client.clinica })).length + 1000001
 
         const connectors = await OfflineClient.find({ clinica: client.clinica })
-        .sort({createdAt: -1})
+            .sort({ createdAt: -1 })
 
         const id = connectors.length > 0 ? connectors[0].id + 1 : 1000001
 
@@ -91,7 +91,7 @@ module.exports.register = async (req, res) => {
                         new Date().getMonth(), new Date().getDate() + 1)
                 },
             })
-            .sort({createdAt: -1})
+                .sort({ createdAt: -1 })
             probirka = lastProbirka.length > 0 ? lastProbirka[0].probirka + 1 : 1
         }
 
@@ -129,6 +129,7 @@ module.exports.register = async (req, res) => {
                     $gte: new Date(new Date().setUTCHours(0, 0, 0, 0)),
                 },
             })
+
 
             if (clientservice) {
                 turn = clientservice.turn
@@ -204,14 +205,14 @@ module.exports.register = async (req, res) => {
                     connector: newconnector._id,
                     product: {
                         _id: product._id,
-                        name: product.name,  
+                        name: product.name,
                         price: product.price
                     },
                     service: newservice._id,
                     clinica: product.clinica,
                     reseption: service.reseption,
                 })
-    
+
                 await newproduct.save()
 
                 checkMinimum(product._id, client.clinica)
@@ -285,7 +286,7 @@ module.exports.add = async (req, res) => {
 
         const updateClient = await OfflineClient.findByIdAndUpdate(
             client._id,
-            {...client, fullname: client.firstname + ' ' + client.lastname},
+            { ...client, fullname: client.firstname + ' ' + client.lastname },
         )
 
         const updateOfflineConnector = await OfflineConnector.findById(
@@ -306,7 +307,7 @@ module.exports.add = async (req, res) => {
                         new Date().getMonth(), new Date().getDate() + 1)
                 },
             })
-            .sort({createdAt: -1})
+                .sort({ createdAt: -1 })
 
             probirka = lastProbirka.length > 0 ? lastProbirka[0].probirka + 1 : 1
 
@@ -326,7 +327,7 @@ module.exports.add = async (req, res) => {
                 })
             }
 
-            
+
 
             //=========================================================
             // TURN
@@ -415,7 +416,7 @@ module.exports.add = async (req, res) => {
                     client: client._id,
                     product: {
                         _id: product._id,
-                        name: product.name,  
+                        name: product.name,
                         price: product.price
                     },
                     connector: updateOfflineConnector._id,
@@ -423,7 +424,7 @@ module.exports.add = async (req, res) => {
                     clinica: product.clinica,
                     reseption: service.reseption,
                 })
-    
+
                 await newproduct.save()
 
                 checkMinimum(product._id, client.clinica)
@@ -438,7 +439,7 @@ module.exports.add = async (req, res) => {
                 return res.status(400).json({
                     error: error.message,
                 })
-            } 
+            }
 
             const produc = await Product.findById(product.productid)
             produc.total = produc.total - product.pieces
@@ -459,9 +460,9 @@ module.exports.add = async (req, res) => {
         }
 
         if (counterdoctor) {
-            const servicess = await OfflineService.find({connector: connector._id})
+            const servicess = await OfflineService.find({ connector: connector._id })
             for (const s of servicess) {
-                const ss = await OfflineService.findOne({_id: s._id, refuse: false})
+                const ss = await OfflineService.findOne({ _id: s._id, refuse: false })
                 ss.counterdoctor = counterdoctor;
                 await ss.save()
             }
@@ -530,7 +531,7 @@ module.exports.addConnector = async (req, res) => {
                         new Date().getMonth(), new Date().getDate() + 1)
                 },
             })
-            .sort({createdAt: -1})
+                .sort({ createdAt: -1 })
             probirka = lastProbirka.length > 0 ? lastProbirka[0].probirka + 1 : 1
         }
 

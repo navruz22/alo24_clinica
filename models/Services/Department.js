@@ -10,6 +10,8 @@ const department = new Schema(
     servicetypes: [{ type: Schema.Types.ObjectId, ref: "ServiceType" }],
     doctor: { type: Schema.Types.ObjectId, ref: "User" },
     room: { type: Number },
+    workStart: { type: String },
+    waitingTime: { type: Number },
     isArchive: { type: Boolean, default: false },
   },
   {
@@ -22,6 +24,8 @@ function validateDepartment(department) {
     name: Joi.string().required(),
     room: Joi.number(),
     probirka: Joi.boolean().required(),
+    workStart: Joi.string().optional(),
+    waitingTime: Joi.number().optional(),
     clinica: Joi.string().required(),
   });
 

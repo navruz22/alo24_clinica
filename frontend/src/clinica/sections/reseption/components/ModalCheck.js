@@ -14,7 +14,7 @@ export const CheckModal = ({ modal, connector, setModal, baseUrl, clinica }) => 
   useEffect(() => {
     if (connector.client) {
       QRCode.toDataURL(
-        `${baseUrl}/clienthistorys/${connector._id}`,
+        `${baseUrl}/clienthistory/laboratory/${connector._id}`,
       ).then((data) => {
         setQr(data)
       })
@@ -43,7 +43,7 @@ export const CheckModal = ({ modal, connector, setModal, baseUrl, clinica }) => 
           </div>
           <div className="modal-body overflow-scroll">
             <div ref={componentRef}>
-              <Check clinica={clinica} baseUrl={baseUrl} connector={connector} qr={qr} /> 
+              <Check clinica={clinica} baseUrl={baseUrl} connector={connector} qr={qr} />
             </div>
           </div>
           <div className="modal-footer custom">

@@ -38,5 +38,8 @@ router.post('/client/history/get', (req, res) => {
     require('./labaratory').getClientHistory(req, res);
 })
 
+router.post('/client/message/send', (req, res) => {
+    require('../message/message').sendLabMessage(req, res);
+})
 
 module.exports = router;

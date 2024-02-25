@@ -28,7 +28,7 @@ const service = new Schema(
     accept: { type: Boolean, default: false },
     reseption: { type: Schema.Types.ObjectId, ref: "User", required: true },
     doctor: { type: Schema.Types.ObjectId, ref: "User" },
-    turn: {type: Number},
+    turn: { type: Number },
     bronday: { type: Date },
     payment: { type: Boolean, default: false },
     comment: { type: String },
@@ -36,7 +36,8 @@ const service = new Schema(
     tables: { type: Array },
     counterdoctor: { type: Schema.Types.ObjectId, ref: "CounterDoctor" },
     files: [{ type: String }],
-    addUser: {type: String}
+    waitingTime: { type: Date },
+    addUser: { type: String }
   },
   {
     timestamps: true,

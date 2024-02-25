@@ -46,7 +46,7 @@ export const OfflineClients = () => {
     //====================================================================
     //====================================================================
 
-    const {t} = useTranslation()
+    const { t } = useTranslation()
 
     //====================================================================
     //====================================================================
@@ -371,7 +371,7 @@ export const OfflineClients = () => {
                 setConnector({ ...connector, probirka: 1, clinica: auth.clinica._id });
             }
             return s.push({
-                clinica: auth.clinica._id, 
+                clinica: auth.clinica._id,
                 reseption: auth.user._id,
                 serviceid: service.service._id,
                 service: service.service,
@@ -585,7 +585,7 @@ export const OfflineClients = () => {
     });
 
     const changeClientData = (e) => {
-        setClient({ ...client, [e.target.name]: e.target.value});
+        setClient({ ...client, [e.target.name]: e.target.value });
     };
 
 
@@ -841,7 +841,7 @@ export const OfflineClients = () => {
 
     //====================================================================
     //====================================================================
-    
+
 
     //====================================================================
     //====================================================================
@@ -895,7 +895,7 @@ export const OfflineClients = () => {
             setClient({
                 clinica: auth.clinica && auth.clinica._id,
                 reseption: auth.user && auth.user._id,
-                firstname: onlineclient.firstname, 
+                firstname: onlineclient.firstname,
                 lastname: onlineclient.lastname,
                 phone: onlineclient.phone
             })

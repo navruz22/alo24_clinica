@@ -86,7 +86,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                 </div>
             </div>}
             <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "30px" }}>
-                {/* <div className="" style={{ textAlign: "center" }}>
+                <div className="" style={{ textAlign: "center" }}>
                     <pre className="" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
                         {clinica?.name}
                     </pre>
@@ -98,7 +98,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                     <pre className="" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
                         {clinica?.name2}
                     </pre>
-                </div> */}
+                </div>
                 {/* <div className="" style={{ textAlign: "center" }}>
                             <p className="text-end m-0">
                                 <img width="100" src={QRcode} alt="QR" />
@@ -411,7 +411,7 @@ const ClientHistoryLab = () => {
     const [connector, setConnector] = useState({})
     const [client, setClient] = useState({})
     const [services, setServices] = useState([])
-    console.log(services);
+
     const getClientHistory = useCallback(
         async (id) => {
             try {
@@ -436,7 +436,7 @@ const ClientHistoryLab = () => {
         [request, notify]
     );
 
-
+    console.log(auth);
 
     const [baseUrl, setBaseUrl] = useState()
 
@@ -477,7 +477,7 @@ const ClientHistoryLab = () => {
             >
                 <Print
                     baseUrl={baseUrl}
-                    clinica={auth && auth.clinica}
+                    clinica={connector?.clinica}
                     connector={connector}
                     client={client}
                     sections={services}

@@ -32,10 +32,11 @@ export const TableClients = ({
   searchProbirka,
   changeAccept,
   getDoctorClientsByName,
-  getDoctorClientsId
+  getDoctorClientsId,
+  handleSendMessage
 }) => {
 
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   const history = useHistory()
   const [clientBorn, setClientBorn] = useState('')
@@ -184,6 +185,9 @@ export const TableClients = ({
                 {t("Kelgan vaqti")}
               </th>
               <th className="border bg-alotrade py-1 text-[14px]">
+                Sms
+              </th>
+              <th className="border bg-alotrade py-1 text-[14px]">
                 {t("Qabul")}
               </th>
             </tr>
@@ -227,6 +231,19 @@ export const TableClients = ({
                   </td>
                   <td className="border py-1 text-right text-[16px]">
                     {new Date(connector.connector.createdAt).toLocaleDateString()} {new Date(connector.connector.createdAt).toLocaleTimeString()}
+                  </td>
+                  <td className="border py-1 text-right text-[16px]">
+                    <div className="custom-control custom-checkbox text-center">
+                      <input
+                        checked={connector.connector.isSended}
+                        type="checkbox"
+                        className="custom-control-input border border-dager"
+                        id={`${connector.connector._id}`}
+                        onChange={(e) => handleSendMessage(connector.connector._id, connector.client.id)}
+                      />
+                      <label className="custom-control-label"
+                        htmlFor={`${connector.connector._id}`}></label>
+                    </div>
                   </td>
                   <td className="border py-1 text-center">
                     {loading ? (

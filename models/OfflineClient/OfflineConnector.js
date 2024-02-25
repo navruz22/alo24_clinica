@@ -21,8 +21,10 @@ const connector = new Schema(
         probirka: { type: Number, default: 0 },
         accept: { type: Boolean, default: false },
         totalprice: { type: Number },
+        isSended: { type: Boolean, default: false },
         payments: [{ type: Schema.Types.ObjectId, ref: 'OfflinePayment' }],
         discount: { type: Schema.Types.ObjectId, ref: 'OfflineDiscount' },
+        enterTime: { type: Date }
     },
     {
         timestamps: true,

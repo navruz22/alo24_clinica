@@ -25,7 +25,7 @@ export const DoctorClients = () => {
 
   //====================================================================
   //====================================================================
-  const {t} = useTranslation()
+  const { t } = useTranslation()
   //====================================================================
   //====================================================================
   // RegisterPage
@@ -223,13 +223,13 @@ export const DoctorClients = () => {
   const [fullname, setFullname] = useState('')
   const [clientId, setClientId] = useState('')
 
-  const searchFullname = 
+  const searchFullname =
     (e) => {
       const searching = searchStorage.filter((item) =>
         item.client.lastname
           .toLowerCase()
           .includes(e.target.value.toLowerCase()) ||
-          item.client.firstname
+        item.client.firstname
           .toLowerCase()
           .includes(e.target.value.toLowerCase())
       );
@@ -238,7 +238,7 @@ export const DoctorClients = () => {
       setCurrentDoctorClients(searching.slice(0, countPage));
     }
 
-  const searchId = 
+  const searchId =
     (e) => {
       const searching = searchStorage.filter((item) =>
         item.client.id.toString().includes(e.target.value)
@@ -249,21 +249,21 @@ export const DoctorClients = () => {
     }
 
   const searchProbirka = (e) => {
-      const searching = searchStorage.filter((item) =>
-        item.connector.probirka.toString().includes(e.target.value)
-      );
-      setDoctorClients(searching);
-      setCurrentDoctorClients(searching.slice(0, countPage));
-    }
+    const searching = searchStorage.filter((item) =>
+      item.connector.probirka.toString().includes(e.target.value)
+    );
+    setDoctorClients(searching);
+    setCurrentDoctorClients(searching.slice(0, countPage));
+  }
 
   //===================================================================
   //===================================================================
 
   const setPageSize = (e) => {
-      setCurrentPage(0);
-      setCountPage(e.target.value);
-      setCurrentDoctorClients(doctorClients.slice(0, e.target.value));
-    }
+    setCurrentPage(0);
+    setCountPage(e.target.value);
+    setCurrentDoctorClients(doctorClients.slice(0, e.target.value));
+  }
 
   //====================================================================
   //====================================================================
@@ -322,6 +322,58 @@ export const DoctorClients = () => {
   //   setDoctorClients(searching);
   //   setCurrentDoctorClients(searching.slice(0, countPage));
   // }
+
+  //====================================================================
+  //====================================================================
+
+  const handleSendMessage = async (connectorId, clientId) => {
+    try {
+      const data = await request(
+        `/api/labaratory/client/message/send`,
+        "POST",
+        {
+          connectorId,
+          clientId
+        }
+      );
+      // setDoctorClients([...searchStorage].map((connector) => {
+      //   if (connector.connector._id === connectorId) {
+      //     return {
+      //       ...connector,
+      //       connector: {
+      //         ...connector.connector,
+      //         isSended: true
+      //       }
+      //     }
+      //   }
+      // }));
+      // setCurrentDoctorClients(
+      //   [...searchStorage].map((connector) => {
+      //     if (connector.connector._id === connectorId) {
+      //       return {
+      //         ...connector,
+      //         connector: {
+      //           ...connector.connector,
+      //           isSended: true
+      //         }
+      //       }
+      //     }
+      //   }).slice(indexFirstConnector, indexLastConnector)
+      // );
+      getDoctorClients(beginDay, endDay, clinicaValue)
+      notify({
+        title: data.message,
+        description: "",
+        status: "success",
+      });
+    } catch (error) {
+      notify({
+        title: error,
+        description: "",
+        status: "error",
+      });
+    }
+  }
 
   //====================================================================
   //====================================================================
@@ -407,7 +459,7 @@ export const DoctorClients = () => {
               />
             </div>}
             <TableClients
-            // changeAccept={changeAccept}
+              // changeAccept={changeAccept}
               changeStart={changeStart}
               changeEnd={changeEnd}
               searchId={searchId}
@@ -425,6 +477,7 @@ export const DoctorClients = () => {
               searchProbirka={searchProbirka}
               getDoctorClientsByName={getDoctorClientsByName}
               getDoctorClientsId={getDoctorClientsId}
+              handleSendMessage={handleSendMessage}
             />
           </div>
         </div>

@@ -438,6 +438,29 @@ export const ClinicaRegister = ({ onFinishCreate, onFinishUpdate, clinicaData })
                       </FormControl>
                     </div>
                     <div className="col-md-12">
+                      <FormControl>
+                        <FormLabel
+                          style={{ color: "#38B2AC", marginTop: "1rem" }}
+                        >
+                          Sms Api
+                        </FormLabel>
+                        <Input
+                          onKeyUp={keyPressed}
+                          placeholder="Sms Api"
+                          size="sm"
+                          style={
+                            clinica.smsKey &&
+                              clinica.smsKey.length > 0
+                              ? styleGreen
+                              : styleDefault
+                          }
+                          defaultValue={clinica.smsKey && clinica.smsKey}
+                          name="smsKey"
+                          onChange={changeHandler}
+                        />
+                      </FormControl>
+                    </div>
+                    <div className="col-md-12">
                       <FormControl isRequired>
                         <FormLabel
                           style={{ color: "#38B2AC", marginTop: "1rem" }}
@@ -691,7 +714,7 @@ export const ClinicaRegister = ({ onFinishCreate, onFinishUpdate, clinicaData })
                           }
                           defaultValue={clinica.close_date && clinica.close_date}
                           name="close_date"
-                          onChange={e => setClinica({...clinica, close_date: new Date(e.target.value).toISOString()})}
+                          onChange={e => setClinica({ ...clinica, close_date: new Date(e.target.value).toISOString() })}
                         />
                       </FormControl>
                     </div>

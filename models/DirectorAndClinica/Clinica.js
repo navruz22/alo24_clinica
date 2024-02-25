@@ -4,8 +4,8 @@ const Joi = require('joi')
 const clinica = new Schema(
   {
     name: { type: String, required: true },
-    name2: {type: String},
-    site: {type: String},
+    name2: { type: String },
+    site: { type: String },
     organitionName: { type: String },
     image: { type: String, required: true },
     phone1: { type: String, required: true },
@@ -13,27 +13,28 @@ const clinica = new Schema(
     phone3: { type: String },
     bank: { type: String },
     bankNumber: { type: String },
-    license: {type: String},
-    header: {type: String},
-    ifud1: {type: String},
-    ifud2: {type: String},
-    ifud3: {type: String},
+    license: { type: String },
+    header: { type: String },
+    ifud1: { type: String },
+    ifud2: { type: String },
+    ifud3: { type: String },
     inn: { type: Number },
-    telegramId: {type: String},
+    telegramId: { type: String },
     mainclinica: { type: Boolean, default: false },
     filials: [{ type: Schema.Types.ObjectId, ref: "Clinica" }],
     isFilial: { type: Boolean, default: false },
     mfo: { type: Number },
     address: { type: String },
+    smsKey: { type: String },
     orientation: { type: String },
-    isClose: {type: Boolean, default: false},
-    close_date: {type: Date},
-    isCreateUser: {type: Boolean, default: false},
+    isClose: { type: Boolean, default: false },
+    close_date: { type: Date },
+    isCreateUser: { type: Boolean, default: false },
     isArchive: { type: Boolean, default: false },
   },
   {
     timestamps: true,
-  }, 
+  },
 )
 
 function validateClinica(clinica) {
@@ -53,6 +54,7 @@ function validateClinica(clinica) {
     filials: Joi.array(),
     isFilial: Joi.boolean(),
     address: Joi.string(),
+    smsKey: Joi.string().optional(),
     orientation: Joi.string(),
     license: Joi.string(),
     site: Joi.string(),
@@ -69,4 +71,3 @@ function validateClinica(clinica) {
 
 module.exports.validateClinica = validateClinica
 module.exports.Clinica = model('Clinica', clinica)
- 
