@@ -48,7 +48,7 @@ module.exports.sendLabMessage = async (req, res) => {
 
 
         if (connector.clinica.smsKey) {
-            handleSend(connector.clinica.smsKey, `998${connector.client.phone}`, `Xurmatli ${connector.client.firstname} ${connector.client.lastname} sizning ${connector.clinica.name} ga topshirgan tahlil natijalaringiz tayyor! Yuklab olish: ${config.get('baseUrl')}/clienthistory/${connector._id}`).then(async (data) => {
+            handleSend(connector.clinica.smsKey, `998${connector.client.phone}`, `Xurmatli ${connector.client.firstname} ${connector.client.lastname} sizning ${connector.clinica.name} ga topshirgan tahlil natijalaringiz tayyor! Yuklab olish: ${config.get('baseUrl')}/clienthistory/laboratory/${connector._id}`).then(async (data) => {
                 // console.log(data);
                 connector.isSended = true;
                 await connector.save()
