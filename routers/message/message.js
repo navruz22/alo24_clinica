@@ -48,7 +48,7 @@ module.exports.sendLabMessage = async (req, res) => {
 
 
         if (connector.clinica.smsKey) {
-            handleSend(connector.clinica.smsKey, `998${connector.client.phone}`, `Xurmatli ${connector.client.firstname} ${connector.client.lastname} sizning ${connector.clinica.name} ga topshirgan tahlil natijalaringiz tayyor! Yuklab olish: ${config.get('baseUrl')}/clienthistory/laboratory/${connector._id}`).then(async (data) => {
+            handleSend(connector.clinica.smsKey, `998${connector.client.phone}`, `Hurmatli ${connector.client.firstname} ${connector.client.lastname} sizning ${connector.clinica.name} ga topshirgan tahlil natijalaringiz tayyor! Yuklab olish: ${config.get('baseUrl')}/clienthistory/laboratory/${connector._id}`).then(async (data) => {
                 // console.log(data);
                 connector.isSended = true;
                 await connector.save()
@@ -81,6 +81,6 @@ module.exports.sendMessage = async () => {
         const { name: deparmtent_name } = department;
         const { name: clinica_name } = clinica
 
-        handleSend(client.clinica.smsKey, `998${phone}`, `Xuramtli ${firstname} ${lastname}! Eslatib o'tamiz, siz ${new Date(brondate).toLocaleDateString('ru-RU')} kuni, soat ${new Date(brondate).getHours()}:${new Date(brondate).getMinutes() < 10 ? '0' + new Date(brondate).getMinutes() : new Date(brondate).getMinutes()} da ${clinica_name} ning ${deparmtent_name} bo'limiga qabulga yozilgansiz! Iltimos kech qolmang! Ma'lumot uchun: +998992234244`)
+        handleSend(client.clinica.smsKey, `998${phone}`, `Huramtli ${firstname} ${lastname}! Eslatib o'tamiz, siz ${new Date(brondate).toLocaleDateString('ru-RU')} kuni, soat ${new Date(brondate).getHours()}:${new Date(brondate).getMinutes() < 10 ? '0' + new Date(brondate).getMinutes() : new Date(brondate).getMinutes()} da ${clinica_name} ning ${deparmtent_name} bo'limiga qabulga yozilgansiz! Iltimos kech qolmang! Ma'lumot uchun: +998992234244`)
     }
 }
