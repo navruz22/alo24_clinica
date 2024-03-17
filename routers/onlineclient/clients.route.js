@@ -1,9 +1,9 @@
 const axios = require('axios');
 const config = require("config")
-const { Product } = require('../../models/Warehouse/Product')
-const { Clinica } = require('../../models/DirectorAndClinica/Clinica')
+const {Product} = require('../../models/Warehouse/Product')
+const {Clinica} = require('../../models/DirectorAndClinica/Clinica')
 require('../../models/Services/Department')
-const { User } = require('../../models/Users')
+const {User} = require('../../models/Users')
 const {
     OnlineClient,
     validateOnlineClient,
@@ -11,7 +11,7 @@ const {
 
 
 const handleSend = async (smsKey, number, message) => {
-    axios.get(`https://smsapp.uz/new/services/send.php?key=${smsKey}&number=${number}&message=${message}`)
+    await axios.get(`https://smsapp.uz/new/services/send.php?key=${smsKey}&number=${number}&message=${message}`)
         .then(res => {
             console.log('ok');
         })
@@ -40,7 +40,7 @@ module.exports.register = async (req, res) => {
         //=========================================================
         // CreateClient
 
-        const newclient = new OnlineClient({ ...client })
+        const newclient = new OnlineClient({...client})
         await newclient.save()
 
         const response = await OnlineClient.findById(newclient._id)
@@ -49,12 +49,12 @@ module.exports.register = async (req, res) => {
             .populate("clinica")
             .populate("department", 'name')
 
-        handleSend(clientData.clinica.smsKey, `998${clientData.phone}`, `Huramtli ${clientData.firstname} ${clientData.lastname}! Eslatib o'tamiz, siz ${new Date(clientData.brondate).toLocaleDateString('ru-RU')} kuni, soat ${new Date(clientData.brondate).getHours()}:${new Date(clientData.brondate).getMinutes() < 10 ? '0' + new Date(brondate).getMinutes() : new Date(brondate).getMinutes()} da ${clientData.clinica.name} ning ${clientData.department.name} bo'limiga qabulga yozilgansiz! Iltimos kech qolmang! Ma'lumot uchun: +998992234244`)
+        await handleSend(clientData.clinica.smsKey, `998${clientData.phone}`, `Huramtli ${clientData.firstname} ${clientData.lastname}! Eslatib o'tamiz, siz ${new Date(clientData?.brondate).toLocaleDateString('ru-RU')} kuni, soat ${new Date(clientData?.brondate).getHours()}:${new Date(clientData?.brondate).getMinutes() < 10 ? '0' + new Date(clientData.brondate).getMinutes() : new Date(clientData.brondate).getMinutes()} da ${clientData.clinica.name} ning ${clientData.department.name} bo'limiga qabulga yozilgansiz! Iltimos kech qolmang! Ma'lumot uchun: ${clientData.clinica.phone1}`)
 
         res.status(201).send(response)
     } catch (error) {
         console.log(error);
-        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
     }
 }
 
@@ -66,19 +66,19 @@ module.exports.update = async (req, res) => {
         //=========================================================
 
 
-        await OnlineClient.findByIdAndUpdate(client._id, { ...client })
+        await OnlineClient.findByIdAndUpdate(client._id, {...client})
 
         const response = await OnlineClient.findById(client._id)
 
         res.status(201).send(response)
     } catch (error) {
-        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
     }
 }
 
 module.exports.getDoctors = async (req, res) => {
     try {
-        const { clinica } = req.body;
+        const {clinica} = req.body;
 
         const clinic = await Clinica.findById(clinica)
 
@@ -115,13 +115,13 @@ module.exports.getDoctors = async (req, res) => {
         res.status(201).send(doctors)
     } catch (error) {
         console.log(error);
-        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
     }
 }
 
 module.exports.getClients = async (req, res) => {
     try {
-        const { department, clinica, beginDay, type } = req.body;
+        const {department, clinica, beginDay, type} = req.body;
 
         const clinic = await Clinica.findById(clinica)
 
@@ -159,7 +159,7 @@ module.exports.getClients = async (req, res) => {
         res.status(200).json(clients)
     } catch (error) {
         console.log(error);
-        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
     }
 }
 
@@ -173,9 +173,9 @@ module.exports.deleteClient = async (req, res) => {
 
         await OnlineClient.findByIdAndDelete(id)
 
-        res.status(201).send({ message: "Mijoz o'chirildi" })
+        res.status(201).send({message: "Mijoz o'chirildi"})
     } catch (error) {
         console.log(error);
-        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
     }
 }
