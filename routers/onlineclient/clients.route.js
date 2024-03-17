@@ -52,7 +52,7 @@ module.exports.register = async (req, res) => {
         const bronDate = new Date(clientData.brondate)
         bronDate.setHours(bronDate.getHours() + 3)
 
-        await handleSend(clientData.clinica.smsKey, `998${clientData.phone}`, `Huramtli ${clientData.firstname} ${clientData.lastname}! Eslatib o'tamiz, siz ${bronDate.toLocaleDateString('ru-RU')} kuni, soat ${bronDate.getHours()}:${bronDate.getMinutes() < 10 ? '0' + bronDate.getMinutes() : bronDate.getMinutes()} da ${clientData.clinica.name} ning ${clientData.department.name} bo'limiga qabulga yozilgansiz! Iltimos kech qolmang! Ma'lumot uchun: ${clientData.clinica.phone1}`)
+        await handleSend(clientData.clinica.smsKey, `998${clientData.phone}`, `Huramtli ${clientData.firstname} ${clientData.lastname}! Eslatib o'tamiz, siz ${new Date(bronDate).toLocaleDateString('ru-RU')} kuni, soat ${new Date(bronDate).getHours()}:${new Date(bronDate).getMinutes() < 10 ? '0' + new Date(bronDate).getMinutes() : new Date(bronDate).getMinutes()} da ${clientData.clinica.name} ning ${clientData.department.name} bo'limiga qabulga yozilgansiz! Iltimos kech qolmang! Ma'lumot uchun: ${clientData.clinica.phone1}`)
 
         res.status(201).send(response)
     } catch (error) {
