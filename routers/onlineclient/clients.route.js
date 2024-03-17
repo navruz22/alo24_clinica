@@ -49,7 +49,10 @@ module.exports.register = async (req, res) => {
             .populate("clinica")
             .populate("department", 'name')
 
-        await handleSend(clientData.clinica.smsKey, `998${clientData.phone}`, `Huramtli ${clientData.firstname} ${clientData.lastname}! Eslatib o'tamiz, siz ${new Date(clientData?.brondate).toLocaleDateString('ru-RU')} kuni, soat ${new Date(clientData?.brondate).getHours()}:${new Date(clientData?.brondate).getMinutes() < 10 ? '0' + new Date(clientData.brondate).getMinutes() : new Date(clientData.brondate).getMinutes()} da ${clientData.clinica.name} ning ${clientData.department.name} bo'limiga qabulga yozilgansiz! Iltimos kech qolmang! Ma'lumot uchun: ${clientData.clinica.phone1}`)
+        const bronDate = new Date(clientData.brondate)
+        bronDate.setHours(bronDate.getHours() + 3)
+
+        await handleSend(clientData.clinica.smsKey, `998${clientData.phone}`, `Huramtli ${clientData.firstname} ${clientData.lastname}! Eslatib o'tamiz, siz ${bronDate.toLocaleDateString('ru-RU')} kuni, soat ${bronDate.getHours()}:${bronDate.getMinutes() < 10 ? '0' + bronDate.getMinutes() : bronDate.getMinutes()} da ${clientData.clinica.name} ning ${clientData.department.name} bo'limiga qabulga yozilgansiz! Iltimos kech qolmang! Ma'lumot uchun: ${clientData.clinica.phone1}`)
 
         res.status(201).send(response)
     } catch (error) {
